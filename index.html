@@ -2,531 +2,713 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Enterprise Solar Calculator | NZ BUILD AND ENERGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE SOURCE - Employee Wellness Web App</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#f59e0b',
+                            yellowHover: '#d97706',
+                            yellowLight: '#fef3c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --brand-primary: #1b4332;
-            --brand-secondary: #2d6a4f;
-            --brand-accent: #52b788;
-            --ui-bg: #f8fafc;
-            --ui-card-bg: #ffffff;
-            --ui-border: #e2e8f0;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --sidebar-width: 260px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0f172a;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--ui-bg); 
-            color: var(--text-dark); 
-            line-height: 1.5; 
-            -webkit-tap-highlight-color: transparent; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            overflow-x: hidden;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-        
-        header { background: var(--ui-card-bg); border-bottom: 1px solid var(--ui-border); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; width: 100%; height: 70px; }
-        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; }
-        .brand-text h1 { font-size: 1.1rem; font-weight: 800; color: var(--brand-primary); }
-        .brand-text p { font-size: 0.75rem; color: var(--text-muted); }
-        
-        .admin-wrapper { display: flex; flex: 1; position: relative; }
-        
-        .sidebar { 
-            width: var(--sidebar-width); 
-            background: var(--brand-primary); 
-            color: white; 
-            padding: 1.5rem 1rem; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 0.5rem; 
-            height: calc(100vh - 70px); 
-            position: sticky; 
-            top: 70px; 
-            z-index: 999;
-            transition: transform 0.3s ease;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #fffbebf5;
         }
-
-        .sidebar-link { padding: 0.85rem 1rem; border-radius: 8px; color: #cbd5e1; cursor: pointer; transition: 0.2s; font-weight: 500; font-size: 0.9rem; text-decoration: none; border: none; background: transparent; text-align: left; width: 100%; }
-        .sidebar-link:hover { background: rgba(255,255,255,0.1); color: white; }
-        .sidebar-link.active { background: var(--brand-accent); color: var(--brand-primary); font-weight: 700; }
-        
-        .sidebar-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 0.5rem; }
-        .btn-sidebar-logout { color: #fca5a5; }
-
-        .main-content { flex: 1; max-width: 1200px; margin: 1rem auto; padding: 0 1rem; width: 100%; }
-        
-        .dashboard-card { background: var(--ui-card-bg); border: 1px solid var(--ui-border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); overflow: hidden; margin-bottom: 20px; }
-        .card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--ui-border); background: #fdfdfd; display: flex; justify-content: space-between; align-items: center; }
-        .card-header h2 { font-size: 1.1rem; font-weight: 700; }
-        
-        .method-selector { display: flex; gap: 8px; padding: 1rem 1.5rem; background: #f1f5f9; }
-        .method-btn { flex: 1; padding: 0.75rem; border: 2px solid var(--ui-border); border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
-        .method-btn.active { border-color: var(--brand-primary); background: var(--brand-primary); color: white; }
-
-        .table-area { padding: 0; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 1rem; font-size: 0.75rem; color: var(--text-muted); border-bottom: 1px solid var(--ui-border); text-transform: uppercase; text-align: left; }
-        td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--ui-border); font-size: 0.9rem; vertical-align: middle; }
-        
-        input, select { padding: 0.8rem; border: 1px solid var(--ui-border); border-radius: 8px; background: #fff; font-family: inherit; font-size: 16px; width: 100%; }
-
-        @media (max-width: 600px) {
-            thead { display: none; }
-            tr { display: flex; flex-direction: column; padding: 1rem; border-bottom: 4px solid var(--ui-bg); position: relative; }
-            td { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border: none; }
-            td::before { content: attr(data-label); font-weight: 700; font-size: 0.75rem; color: var(--text-muted); }
-            .btn-danger-row { position: absolute; top: 10px; right: 10px; }
-            .row-kwh { font-weight: 800; color: var(--brand-primary); }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #fcd34d;
+            border-radius: 4px;
         }
-
-        .btn { padding: 0.75rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; border: 1px solid transparent; text-align: center; font-size: 0.9rem; }
-        .btn-primary { background: var(--brand-primary); color: white; }
-        .btn-outline { border-color: var(--ui-border); background: white; font-size: 0.8rem; padding: 0.5rem 0.75rem; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; border-radius: 6px; padding: 8px 12px; font-size: 0.85rem; border:none; }
-        
-        .results-container { display: grid; grid-template-columns: 1fr; }
-        .result-block { padding: 1.5rem; }
-        .usage-block { background: #f1f5f9; color: var(--text-dark); }
-        .financial-block { background: var(--brand-primary); color: white; }
-        
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .stat-group label { font-size: 0.65rem; opacity: 0.8; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px; }
-        .stat-group span { font-size: 1.2rem; font-weight: 800; display: block; }
-        .highlight-text { color: var(--brand-accent); }
-
-        .client-info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 1.5rem; }
-        .hidden { display: none !important; }
-
-        .filter-bar { background: #f8fafc; padding: 1rem 1.5rem; border-bottom: 1px solid var(--ui-border); display: flex; align-items: center; gap: 10px; }
-        .filter-bar label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
-        .filter-bar input[type="month"] { width: auto; padding: 0.5rem; font-size: 0.85rem; }
-
-        .type-selector { display: flex; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 4px; margin-bottom: 15px; }
-        .type-btn { flex: 1; border: none; background: transparent; color: white; padding: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 6px; transition: 0.2s; }
-        .type-btn.selected { background: var(--brand-accent); color: var(--brand-primary); }
-
-        @media (max-width: 768px) {
-            .sidebar { position: fixed; left: 0; transform: translateX(-100%); }
-            .sidebar.mobile-open { transform: translateX(0); }
-            .results-container { grid-template-columns: 1fr; }
-            .header-container { flex-wrap: wrap; height: auto; padding: 0.5rem 1rem; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
         }
-        
-        @media (min-width: 768px) {
-            .results-container { grid-template-columns: 1fr 1fr; }
-            .client-info-grid { grid-template-columns: 1fr 1fr; }
+        .yellow-glow {
+            box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.4);
         }
-
-        /* Pricing Admin Specific Styles */
-        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; padding: 1.5rem; align-items: end; }
-        .pricing-header { font-size: 0.7rem; font-weight: 800; color: var(--brand-primary); text-transform: uppercase; margin-bottom: 5px; }
-        @media (max-width: 600px) { .pricing-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body class="bg-white text-slate-900 flex flex-col min-h-screen">
 
-<header>
-    <div class="header-container">
-        <div class="brand">
-            <div class="brand-text">
-                <h1>NZ BUILD AND ENERGY</h1>
-                <p>ABUCANY BATAAN | 09771638925</p>
+    <!-- Header / Navbar -->
+    <header class="bg-amber-400 text-slate-950 shadow-md sticky top-0 z-50 border-b-4 border-amber-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-3 cursor-pointer group" onclick="navigateTo('home')">
+                    <div class="bg-white text-amber-600 font-black text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-md flex items-center justify-center transform group-hover:scale-105 transition">
+                        1S
+                    </div>
+                    <div>
+                        <h1 class="font-black text-lg sm:text-2xl tracking-tight text-slate-950 leading-tight flex items-center gap-1.5">
+                            ONE SOURCE
+                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-white shadow-sm"></span>
+                        </h1>
+                        <p class="text-xs text-amber-950 font-bold tracking-wide">Stay Healthy. Stay Productive.</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <nav class="flex items-center space-x-2 sm:space-x-3">
+                    <button onclick="navigateTo('home')" id="nav-home" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-amber-900 shadow-sm flex items-center space-x-2">
+                        <i class="fas fa-house text-amber-600"></i>
+                        <span>Home</span>
+                    </button>
+                    <button onclick="navigateTo('concerns')" id="nav-concerns" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-amber-950 hover:bg-amber-300 flex items-center space-x-2">
+                        <i class="fas fa-list-check"></i>
+                        <span>Health Concerns</span>
+                    </button>
+                </nav>
             </div>
         </div>
-        <div class="nav-tabs" style="display: flex; gap: 5px;">
-            <button class="btn btn-outline" id="menuToggle">Menu</button>
-            <button class="btn btn-outline" id="navAdminBtn">Admin</button>
-        </div>
-    </div>
-</header>
+    </header>
 
-<div id="ui-wrapper" class="admin-wrapper">
-    <nav id="adminSidebar" class="sidebar hidden">
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <button class="sidebar-link active" onclick="switchAdminTab('inquiries', this)">Client Inquiries</button>
-            <button class="sidebar-link" onclick="switchAdminTab('pricing', this)">Pricing Settings</button>
-        </div>
-        <div class="sidebar-footer">
-            <button class="sidebar-link" onclick="exitAdmin()">← Back to Calculator</button>
-            <button class="sidebar-link btn-sidebar-logout" id="logoutBtnSidebar">Logout</button>
-        </div>
-    </nav>
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-    <main class="main-content" id="mainArea">
-        <div id="calculatorView">
-            <div class="dashboard-card">
-                <div class="card-header"><h2>1. Energy Estimation</h2></div>
-                <div class="method-selector">
-                    <button id="btnOptA" class="method-btn active" onclick="switchMethod('A')">Monthly Bill</button>
-                    <button id="btnOptB" class="method-btn" onclick="switchMethod('B')">Appliance Audit</button>
-                </div>
-                
-                <div id="sectionBill" class="result-block">
-                    <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; display: block;">Enter Average Monthly Bill (₱)</label>
-                    <input type="number" id="billInput" placeholder="e.g. 5000" oninput="calculateByBill()">
-                </div>
-
-                <div id="sectionAppliances" class="table-area hidden">
-                    <div style="padding: 1rem; background: #fff; border-bottom: 1px solid var(--ui-border); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 0.75rem; font-weight: 800; color: var(--brand-secondary);">APPLIANCE LIST</span>
-                        <button class="btn btn-primary" onclick="addRow()" style="padding: 0.5rem 1rem; font-size: 0.8rem;">+ Add Item</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Appliance</th>
-                                <th>Watts</th>
-                                <th>Qty</th>
-                                <th>Hrs/Day</th>
-                                <th>kWh</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="applianceBody"></tbody>
-                    </table>
-                </div>
-
-                <div class="results-container">
-                    <div id="resBlockB" class="result-block usage-block hidden">
-                        <div class="stat-grid">
-                            <div class="stat-group"><label>Daily Load</label><span id="resDailyB">0.00 kWh</span></div>
-                            <div class="stat-group"><label>Monthly Total</label><span id="resMonthlyB">0.00 kWh</span></div>
-                        </div>
-                    </div>
-                    <div class="result-block financial-block">
-                        <div class="type-selector">
-                            <button class="type-btn selected" id="typeGrid" onclick="setSystemType('Grid-Tie')">GRID-TIE</button>
-                            <button class="type-btn" id="typeHybrid" onclick="setSystemType('Hybrid')">HYBRID</button>
-                        </div>
-                        <div class="stat-grid">
-                            <div class="stat-group"><label>Recommended System</label><span id="resInverterA" class="highlight-text">---</span></div>
-                            <div class="stat-group"><label>Est. Package Price</label><span id="resSystemPrice" class="highlight-text">₱0.00</span></div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Disclaimer Banner -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-2xl shadow-sm mb-6 flex items-start space-x-3">
+            <div class="p-2 bg-amber-400 text-amber-950 rounded-lg text-sm font-bold mt-0.5 flex-shrink-0">
+                <i class="fas fa-shield-halved"></i>
             </div>
+            <div class="text-xs sm:text-sm text-slate-800 leading-relaxed">
+                <span class="font-extrabold text-amber-950 uppercase tracking-wider block sm:inline mr-1">Supportive Care Tool:</span>
+                ONE SOURCE provides practical wellness guidance. It does not diagnose, cure, or replace professional evaluation.
+            </div>
+        </div>
 
-            <div class="dashboard-card">
-                <div class="card-header"><h2>2. Get Your Proposal</h2></div>
-                <div class="client-info-grid">
-                    <input type="text" id="clientName" placeholder="Full Name">
-                    <input type="tel" id="clientContact" placeholder="Contact (e.g. 09771638925)" maxlength="11">
-                    <input type="email" id="clientEmail" placeholder="Email Address">
-                    <input type="text" id="clientAddress" placeholder="Location (City/Province)">
-                </div>
-                <div style="padding: 0 1.5rem 1.5rem;">
-                    <button id="submitBtn" class="btn btn-success" style="width: 100%; padding: 1rem; font-size: 1rem;">
-                        Submit for Free Consultation
+        <!-- HOME VIEW -->
+        <section id="view-home" class="space-y-8">
+            <!-- Hero Dashboard Banner -->
+            <div class="bg-amber-100 text-amber-950 rounded-3xl p-6 sm:p-10 shadow-lg relative overflow-hidden border-2 border-amber-300">
+                <div class="absolute -right-12 -top-12 w-80 h-80 bg-amber-300/40 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="max-w-2xl relative z-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-300 text-amber-950 text-xs font-black rounded-full uppercase tracking-wider mb-4 border border-amber-400">
+                        <i class="fas fa-heart-pulse text-amber-700"></i> Employee Health Support Portal
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-3 text-slate-950 leading-tight">
+                        Stay Healthy.<br>Stay Productive.
+                    </h2>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                        Select your health concern to view practical steps you can take now and warning signs to monitor.
+                    </p>
+                    <button onclick="navigateTo('concerns')" class="bg-amber-500 text-slate-950 hover:bg-amber-400 font-extrabold px-6 py-3.5 rounded-2xl shadow-md transition-all transform active:scale-95 flex items-center space-x-2 yellow-glow border border-amber-300">
+                        <span>Explore Health Concerns</span>
+                        <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
-        </div>
 
-        <div id="loginView" class="hidden">
-            <div style="max-width: 400px; margin: 40px auto; padding: 2rem; background: white; border-radius: 16px; border: 1px solid var(--ui-border);">
-                <h2 style="margin-bottom: 1.5rem; text-align: center;">Admin Access</h2>
-                <input type="email" id="loginEmail" placeholder="Email" style="margin-bottom: 1rem;">
-                <input type="password" id="loginPass" placeholder="Password" style="margin-bottom: 1.5rem;">
-                <button class="btn btn-primary" id="doLoginBtn" style="width: 100%;">Login</button>
-                <button class="btn btn-outline" id="backToCalc" style="width: 100%; margin-top: 10px; border:none;">Back</button>
+            <!-- Quick Search Bar -->
+            <div class="bg-amber-50/60 border border-amber-200 p-6 rounded-2xl shadow-sm">
+                <label for="home-search" class="block text-sm font-extrabold text-amber-950 mb-2">
+                    <i class="fas fa-magnifying-glass text-amber-600 mr-1.5"></i> Quick Health Concern Search
+                </label>
+                <div class="relative">
+                    <input type="text" id="home-search" oninput="handleSearch(this.value)" placeholder="Search symptoms or concerns (e.g. Toothache, Hypertension, Fever, Asthma, UTI)..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-amber-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none text-slate-900 font-medium text-sm shadow-sm transition">
+                    <i class="fas fa-search absolute left-4 top-4 text-amber-500"></i>
+                </div>
+                <!-- Search Live Results -->
+                <div id="search-results" class="hidden mt-3 bg-white rounded-xl border border-amber-200 shadow-xl divide-y divide-amber-100 overflow-hidden max-h-64 overflow-y-auto custom-scrollbar"></div>
             </div>
-        </div>
 
-        <div id="adminView" class="hidden">
-            <div id="adminSectionInquiries">
-                <div class="dashboard-card">
-                    <div class="card-header"><h2>Client Inquiries</h2></div>
-                    <div class="filter-bar">
-                        <label>SORT BY MONTH:</label>
-                        <input type="month" id="monthFilter" onchange="loadInquiries()">
+            <!-- Categories Grid -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fas fa-grip text-amber-500"></i> Wellness Categories
+                    </h3>
+                    <span class="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-200">Interactive Directory</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5" id="categories-grid">
+                    <!-- Dynamic rendering of categories -->
+                </div>
+            </div>
+        </section>
+
+        <!-- HEALTH CONCERNS VIEW -->
+        <section id="view-concerns" class="hidden space-y-6">
+            <!-- Header & Filter Bar -->
+            <div class="bg-amber-50/60 border border-amber-200 p-6 rounded-2xl shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-900">Health Concern Guidance</h2>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-0.5">Select a category and condition to follow the practical guidance protocol.</p>
                     </div>
-                    <div class="table-area">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Client Info</th>
-                                    <th>System</th>
-                                    <th>Date</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminTableBody"></tbody>
-                        </table>
+                    <!-- Category Filter Dropdown -->
+                    <div class="w-full md:w-72">
+                        <select id="category-filter" onchange="filterByCategory(this.value)" class="w-full p-3 bg-white border border-amber-300 rounded-xl text-sm font-bold text-slate-800 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none shadow-sm cursor-pointer">
+                            <option value="ALL">All Categories</option>
+                        </select>
                     </div>
+                </div>
+
+                <!-- Condition Buttons Pill list -->
+                <div class="flex flex-wrap gap-2 pt-3 border-t border-amber-200" id="condition-pills">
+                    <!-- Dynamic condition pills -->
                 </div>
             </div>
 
-            <div id="adminSectionPricing" class="hidden">
-                <div class="dashboard-card">
-                    <div class="card-header"><h2>System Pricing</h2></div>
-                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--ui-border);">
-                        <label style="font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 5px;">GLOBAL RATE (₱/kWh):</label>
-                        <input type="number" id="adminKwhRate" step="0.01" style="max-width: 200px;">
-                    </div>
-                    <div class="pricing-grid" id="pricingHeaderRow" style="background: #f1f5f9; padding: 0.5rem 1.5rem; border-bottom: 1px solid var(--ui-border);">
-                        <div class="pricing-header">System Size</div>
-                        <div class="pricing-header">Grid-Tie Price (₱)</div>
-                        <div class="pricing-header">Hybrid Price (₱)</div>
-                    </div>
-                    <div id="priceInputsContainer"></div>
-                    <div style="padding: 1.5rem;"><button class="btn btn-primary" id="saveAdminSettings" style="width: 100%;">Save Pricing Changes</button></div>
-                </div>
+            <!-- Detailed Guide View -->
+            <div id="guide-display-container">
+                <!-- Selected flow dynamically loaded here -->
             </div>
-        </div>
+        </section>
+
     </main>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <!-- Footer -->
+    <footer class="bg-amber-400 text-slate-950 border-t-4 border-amber-500 mt-12 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-amber-500/50 pb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white text-amber-600 font-black p-2.5 rounded-xl text-sm shadow">1S</div>
+                    <div>
+                        <p class="font-black text-base text-slate-950">ONE SOURCE</p>
+                        <p class="text-xs text-amber-950 font-bold">Stay Healthy. Stay Productive.</p>
+                    </div>
+                </div>
+                <div class="text-xs font-bold text-amber-950 text-center md:text-right">
+                    Employee Wellness & Practical Self-Care Protocol Portal
+                </div>
+            </div>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCOOF8o3Xsw2tPsjNd9OtKkNEqkjzu-6K4",
-        authDomain: "solar-24b06.firebaseapp.com",
-        projectId: "solar-24b06",
-        databaseURL: "https://solar-24b06-default-rtdb.asia-southeast1.firebasedatabase.app"
-    };
+            <!-- Corporate Disclaimer -->
+            <div class="bg-amber-300/60 p-4 rounded-xl border border-amber-500/40 text-xs text-amber-950 leading-relaxed font-medium">
+                <span class="font-extrabold uppercase tracking-wider block mb-1 text-slate-950">Notice & Disclaimer:</span>
+                ONE SOURCE is an employee wellness support and reporting tool. It does not diagnose, cure, or replace professional medical care. Health information provided in this application is for general guidance only.
+            </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
+            <div class="text-center text-xs text-amber-950 font-extrabold">
+                &copy; 2026 ONE SOURCE Wellness Portal. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
-    const APPLIANCE_LIBRARY = {
-        "Custom": 0, "-- COOLING --": 0, "Aircon (0.5 HP)": 500, "Aircon (1.0 HP)": 900, "Aircon (1.5 HP)": 1300, "Aircon (2.0 HP)": 1800, "Aircon (2.5 HP)": 2300, "Electric Fan (Desk)": 50, "Electric Fan (Stand)": 65, "Air Cooler": 120, "Exhaust Fan": 40, "-- KITCHEN --": 0, "Refrigerator (Personal)": 80, "Refrigerator (1-Door)": 150, "Refrigerator (2-Door)": 250, "Chest Freezer": 200, "Microwave Oven": 1200, "Electric Kettle": 1500, "Rice Cooker (Small)": 400, "Rice Cooker (Large)": 800, "Induction Cooker": 2000, "Air Fryer": 1400, "Coffee Maker": 800, "Blender": 300, "Oven Toaster": 1000, "-- ENTERTAINMENT --": 0, "LED TV (32 inch)": 50, "LED TV (43 inch)": 80, "LED TV (55 inch)": 120, "LED TV (65 inch)": 180, "Sound System / Speakers": 100, "Gaming Console (PS5/Xbox)": 200, "-- LAUNDRY & CLEANING --": 0, "Washing Machine (Single)": 350, "Washing Machine (Fully Auto)": 500, "Spin Dryer": 250, "Clothes Dryer": 2500, "Flat Iron": 1100, "Vacuum Cleaner": 1200, "-- OFFICE & GADGETS --": 0, "Laptop": 65, "Desktop PC (Office)": 150, "Desktop PC (Gaming)": 400, "Computer Monitor": 40, "Wi-Fi Router": 15, "CCTV System (4-CH)": 50, "Phone Charger": 10, "-- LIGHTING & WATER --": 0, "LED Bulb (5W)": 5, "LED Bulb (9W)": 9, "LED Bulb (13W)": 13, "Fluorescent Tube": 40, "Water Pump (0.5 HP)": 375, "Water Pump (1.0 HP)": 750, "Electric Shower Heater": 3500
-    };
+    <script>
+        // WELLNESS DATA STRUCTURE
+        const healthData = [
+            {
+                id: 'cns',
+                category: 'CNS (Central Nervous System)',
+                icon: 'fa-brain',
+                conditions: [
+                    {
+                        name: 'Hypertension',
+                        id: 'cns-hypertension',
+                        symptomsList: ['Headache', 'Dizziness', 'Chest discomfort', 'Shortness of breath', 'Palpitations', 'Neck stiffness'],
+                        whatToDo: 'Check and record blood pressure if a reliable BP monitor is available. Sit and rest calmly in a comfortable environment. Take prescribed medication only according to your healthcare professional\'s instructions.',
+                        whatNotToDo: 'Do not take extra medication unless directed by a healthcare professional. Do not ignore severe or unusual symptoms.',
+                        selfCare: 'Practice calm breathing exercises. Rest quietly away from noise and bright lights.',
+                        whatToWatchFor: 'Persistent high blood pressure readings, persistent dizziness, or worsening headache.'
+                    },
+                    {
+                        name: 'Animal Bite',
+                        id: 'cns-animal-bite',
+                        symptomsList: ['Puncture wounds', 'Skin tears', 'Localized bleeding', 'Pain at bite site', 'Swelling'],
+                        whatToDo: 'Clean the wound promptly with soap and running water. Keep the area clean.',
+                        whatNotToDo: 'Do not apply harmful or irritating substances to the wound. Do not delay professional assessment.',
+                        selfCare: 'Keep affected limb elevated if swollen. Cover with a clean dry dressing.',
+                        whatToWatchFor: 'Increasing redness, warmth, swelling, or oozing at the bite site.'
+                    }
+                ]
+            },
+            {
+                id: 'dental',
+                category: 'Dental',
+                icon: 'fa-tooth',
+                conditions: [
+                    {
+                        name: 'Toothache',
+                        id: 'dental-toothache',
+                        symptomsList: ['Sharp or throbbing pain', 'Sensitivity to hot/cold', 'Pain when chewing', 'Gum tenderness'],
+                        whatToDo: 'Keep the mouth clean. Rinse gently with clean water. Avoid foods or drinks that worsen the pain.',
+                        whatNotToDo: 'Do not place aspirin directly against the gums or tooth. Avoid extremely hot, cold, or hard foods.',
+                        selfCare: 'Gently floss around the area to remove trapped food particles. Apply an external cool pack to the cheek if comfortable.',
+                        whatToWatchFor: 'Facial swelling, fever, severe or worsening pain, difficulty swallowing, or difficulty breathing.'
+                    },
+                    {
+                        name: 'Tooth Extraction',
+                        id: 'dental-extraction',
+                        symptomsList: ['Post-extraction discomfort', 'Mild localized swelling', 'Slight blood oozing'],
+                        whatToDo: 'Follow the dentist\'s instructions carefully. Protect the extraction area. Follow instructions regarding eating, drinking, and oral hygiene. Monitor bleeding, swelling, and pain.',
+                        whatNotToDo: 'Do not spit forcefully, smoke, or drink through a straw for 24–48 hours. Do not touch the extraction site with fingers or tongue.',
+                        selfCare: 'Rest with head elevated. Eat soft, cool foods like yogurt or broth.',
+                        whatToWatchFor: 'Persistent or heavy bleeding, increasing swelling, severe pain, fever, or pus.'
+                    }
+                ]
+            },
+            {
+                id: 'ent',
+                category: 'ENT',
+                icon: 'fa-head-side-cough',
+                conditions: [
+                    {
+                        name: 'Tonsillitis',
+                        id: 'ent-tonsillitis',
+                        symptomsList: ['Sore throat', 'Difficulty swallowing', 'Red swollen tonsils', 'Low fever'],
+                        whatToDo: 'Rest. Drink appropriate fluids. Monitor symptoms.',
+                        whatNotToDo: 'Do NOT automatically use antibiotics. Antibiotics should only be used when prescribed or determined to be appropriate by a qualified healthcare professional.',
+                        selfCare: 'Gargle warm salt water gently. Use soothing lozenges if helpful.',
+                        whatToWatchFor: 'High fever, white patches on tonsils, or inability to swallow liquids.'
+                    },
+                    {
+                        name: 'ATP (Acute Tonsillopharyngitis)',
+                        id: 'ent-atp',
+                        symptomsList: ['Throat discomfort', 'Scratchy voice', 'Mild fever', 'Swollen neck glands'],
+                        whatToDo: 'Rest. Drink appropriate fluids. Monitor your symptoms closely.',
+                        whatNotToDo: 'Do not take unprescribed antibiotics or irritate throat with smoke or harsh foods.',
+                        selfCare: 'Sip warm fluids like broth or tea. Maintain good oral hygiene.',
+                        whatToWatchFor: 'Worsening throat pain, persistent fever, or difficulty opening mouth.'
+                    }
+                ]
+            },
+            {
+                id: 'gastro',
+                category: 'Gastro',
+                icon: 'fa-disease',
+                conditions: [
+                    {
+                        name: 'AGE (Acute Gastroenteritis)',
+                        id: 'gastro-age',
+                        symptomsList: ['Watery stool', 'Nausea', 'Vomiting', 'Stomach cramps', 'Mild fever'],
+                        whatToDo: 'Maintain hydration when appropriate by taking small, frequent sips of water or oral rehydration fluids. Rest and choose bland foods that are easier to tolerate.',
+                        whatNotToDo: 'Do not consume dairy, greasy, or spicy foods. Avoid anti-diarrheal medication without professional guidance if fever or bloody stool is present.',
+                        selfCare: 'Rest quietly and gradually introduce bland foods like rice, toast, or bananas.',
+                        whatToWatchFor: 'Signs of dehydration (dry mouth, dark urine, extreme fatigue), persistent vomiting, or severe abdominal pain.'
+                    },
+                    {
+                        name: 'Acute Gastritis',
+                        id: 'gastro-gastritis',
+                        symptomsList: ['Upper stomach burning', 'Fullness after eating', 'Nausea', 'Indigestion'],
+                        whatToDo: 'Eat smaller, lighter meals. Stay upright for a while after eating. Rest and stay hydrated with plain water.',
+                        whatNotToDo: 'Avoid acidic, spicy, or fried foods. Avoid taking pain relievers on an empty stomach without guidance.',
+                        selfCare: 'Apply a warm compress to upper abdomen for comfort.',
+                        whatToWatchFor: 'Persistent stomach pain, dark stool, or vomiting.'
+                    },
+                    {
+                        name: 'ARD (Acid Related Disorder)',
+                        id: 'gastro-ard',
+                        symptomsList: ['Heartburn', 'Acid regurgitation', 'Chest tightness after meals', 'Bloating'],
+                        whatToDo: 'Remain seated or standing upright after meals. Choose non-acidic foods and sip water.',
+                        whatNotToDo: 'Do not lie down immediately after eating. Avoid coffee, carbonated drinks, and tight waist clothing.',
+                        selfCare: 'Eat smaller meal portions at regular intervals.',
+                        whatToWatchFor: 'Difficulty swallowing or persistent burning discomfort.'
+                    }
+                ]
+            },
+            {
+                id: 'genitourinary',
+                category: 'Genitourinary',
+                icon: 'fa-restroom',
+                conditions: [
+                    {
+                        name: 'UTI (Urinary Tract Infection)',
+                        id: 'genitourinary-uti',
+                        symptomsList: ['Burning during urination', 'Urgent/frequent urination', 'Cloudy urine', 'Lower pelvic pressure'],
+                        whatToDo: 'Maintain appropriate hydration unless medically restricted. Monitor urinary symptoms closely.',
+                        whatNotToDo: 'Do not hold urine when feeling the urge to go. Avoid caffeine and sweetened drinks.',
+                        selfCare: 'Drink clean water throughout the day. Maintain proper hygiene.',
+                        whatToWatchFor: 'Fever, flank or back pain, vomiting, or worsening symptoms.'
+                    }
+                ]
+            },
+            {
+                id: 'integumentary',
+                category: 'Integumentary',
+                icon: 'fa-hand-dots',
+                conditions: [
+                    {
+                        name: 'Cellulitis',
+                        id: 'integumentary-cellulitis',
+                        symptomsList: ['Red skin area', 'Warmth to touch', 'Swelling', 'Skin tenderness'],
+                        whatToDo: 'Clean minor wounds appropriately if present. Keep the area clean and protected. Monitor changes in the skin border closely.',
+                        whatNotToDo: 'Do not squeeze, rub, or scratch the affected skin. Avoid dirty bandages.',
+                        selfCare: 'Elevate the affected arm or leg when sitting.',
+                        whatToWatchFor: 'Increasing redness, swelling, warmth, pus, fever, or redness spreading from the affected area.'
+                    },
+                    {
+                        name: 'Abrasion',
+                        id: 'integumentary-abrasion',
+                        symptomsList: ['Surface skin scrape', 'Minor pinpoint bleeding', 'Localized stinging'],
+                        whatToDo: 'Clean minor wounds appropriately with clean water and gentle soap. Cover with a clean sterile dressing to keep protected.',
+                        whatNotToDo: 'Do not rub aggressively or apply harsh unverified chemicals to open skin.',
+                        selfCare: 'Keep area clean and dry; replace bandage if wet or dirty.',
+                        whatToWatchFor: 'Increasing redness, pus, swelling, or throbbing pain.'
+                    }
+                ]
+            },
+            {
+                id: 'musculoskeletal',
+                category: 'Musculoskeletal',
+                icon: 'fa-bone',
+                conditions: [
+                    {
+                        name: 'MSD (Musculoskeletal Disorder)',
+                        id: 'msk-msd',
+                        symptomsList: ['Neck strain', 'Lower back stiffness', 'Wrist fatigue', 'Shoulder tightness'],
+                        whatToDo: 'Rest from activities that worsen pain. Use proper workplace ergonomics. Adjust posture and workstation setup. Gentle movement or stretching may be appropriate when it does not worsen symptoms.',
+                        whatNotToDo: 'Avoid activities that significantly increase pain. Avoid prolonged static sitting or improper lifting.',
+                        selfCare: 'Take short posture breaks every hour. Apply warm or cool pack as comfortable.',
+                        whatToWatchFor: 'Numbness, tingling, or pain radiating into arms or legs.'
+                    },
+                    {
+                        name: 'MSS (Musculoskeletal Strain)',
+                        id: 'msk-mss',
+                        symptomsList: ['Joint soreness', 'Localized swelling', 'Muscle tenderness', 'Limited range of motion'],
+                        whatToDo: 'Rest affected joint or muscle. Apply cold pack wrapped in a cloth for 15 minutes at a time. Elevate when resting.',
+                        whatNotToDo: 'Do not force painful joint movements or engage in heavy lifting while inflamed.',
+                        selfCare: 'Support joint with light compression if comfortable.',
+                        whatToWatchFor: 'Significant weakness, numbness, loss of function, or severe pain.'
+                    }
+                ]
+            },
+            {
+                id: 'neuro',
+                category: 'Neuro',
+                icon: 'fa-brain',
+                conditions: [
+                    {
+                        name: 'Headache',
+                        id: 'neuro-headache',
+                        symptomsList: ['Pressure around forehead', 'Tension in neck', 'Eye fatigue', 'Light sensitivity'],
+                        whatToDo: 'Rest in a quiet area. Maintain appropriate hydration. Record temperature when appropriate. Identify possible triggers such as screen fatigue or stress. Monitor symptoms.',
+                        whatNotToDo: 'Avoid excessive screen exposure, loud environments, and skipping meals.',
+                        selfCare: 'Place a cool cloth over forehead and stretch neck muscles gently.',
+                        whatToWatchFor: 'Severe or unusual headache, confusion, new weakness, or vision changes.'
+                    },
+                    {
+                        name: 'Fever',
+                        id: 'neuro-fever',
+                        symptomsList: ['Elevated temperature (>37.5°C)', 'Chills', 'Body aches', 'Fatigue', 'Sweating'],
+                        whatToDo: 'Rest adequately. Maintain appropriate hydration with water and fluids. Record temperature regularly with a reliable thermometer. Monitor symptoms closely.',
+                        whatNotToDo: 'Do not bundle in heavy blankets or take freezing baths.',
+                        selfCare: 'Wear light, comfortable clothing and stay in a well-ventilated room.',
+                        whatToWatchFor: 'Persistent high fever, severe headache, stiff neck, or difficulty breathing.'
+                    },
+                    {
+                        name: 'Migraine',
+                        id: 'neuro-migraine',
+                        symptomsList: ['Throbbing head pain on one side', 'Nausea', 'Light/sound sensitivity', 'Visual aura'],
+                        whatToDo: 'Rest in a darkened, quiet room. Maintain fluid intake. Apply cool compress to forehead. Monitor symptoms.',
+                        whatNotToDo: 'Avoid bright lights, loud noises, and known migraine trigger foods.',
+                        selfCare: 'Practice quiet relaxation and keep eyes closed.',
+                        whatToWatchFor: 'Unusual speech difficulty, new weakness, or prolonged symptoms.'
+                    }
+                ]
+            },
+            {
+                id: 'optha',
+                category: 'Optha',
+                icon: 'fa-eye',
+                conditions: [
+                    {
+                        name: 'Eye Irritation',
+                        id: 'optha-irritation',
+                        symptomsList: ['Eye redness', 'Gritty sensation', 'Watering', 'Itchiness'],
+                        whatToDo: 'Avoid rubbing the eyes. Wash hands frequently. Avoid sharing towels and personal items. Monitor symptoms.',
+                        whatNotToDo: 'Do not rub eyes with unwashed hands. Avoid wearing contact lenses while irritated.',
+                        selfCare: 'Rinse gently with sterile saline or artificial tears if dust is present.',
+                        whatToWatchFor: 'Serious eye pain, vision changes, significant swelling, or eye injury.'
+                    },
+                    {
+                        name: 'Conjunctivitis',
+                        id: 'optha-conjunctivitis',
+                        symptomsList: ['Red or pink eye appearance', 'Discharge', 'Crusting on eyelids', 'Itching'],
+                        whatToDo: 'Wash hands regularly. Use separate clean towels. Avoid rubbing eyes.',
+                        whatNotToDo: 'Do not touch the uninfected eye after touching the affected one.',
+                        selfCare: 'Apply a clean, cool compress over closed eyes for comfort.',
+                        whatToWatchFor: 'Severe pain, worsening discharge, or vision impairment.'
+                    }
+                ]
+            }
+        ];
 
-    // Updated sysConfig with both types
-    let sysConfig = { 
-        rate: 12.00, 
-        gridPrices: { "3kW": 165000, "5kW": 275000, "8kW": 395000, "10kW": 485000, "16kW": 720000, "20kW": 890000 },
-        hybridPrices: { "3kW": 222750, "5kW": 371250, "8kW": 533250, "10kW": 654750, "16kW": 972000, "20kW": 1201500 }
-    };
-    
-    let currentDaily = 0;
-    let selectedType = 'Grid-Tie';
+        // Global State
+        let selectedCategory = 'ALL';
+        let selectedConditionId = null;
 
-    onValue(ref(db, 'settings'), (snapshot) => {
-        if(snapshot.exists()){
-            const data = snapshot.val();
-            if(data.kwhRate) sysConfig.rate = parseFloat(data.kwhRate);
-            if(data.gridPrices) sysConfig.gridPrices = data.gridPrices;
-            if(data.hybridPrices) sysConfig.hybridPrices = data.hybridPrices;
-            document.getElementById('adminKwhRate').value = sysConfig.rate;
+        // Navigation function
+        function navigateTo(view) {
+            const homeView = document.getElementById('view-home');
+            const concernsView = document.getElementById('view-concerns');
+            const navHome = document.getElementById('nav-home');
+            const navConcerns = document.getElementById('nav-concerns');
+
+            if (view === 'home') {
+                homeView.classList.remove('hidden');
+                concernsView.classList.add('hidden');
+                navHome.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-amber-900 shadow-sm flex items-center space-x-2";
+                navConcerns.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-amber-950 hover:bg-amber-300 flex items-center space-x-2";
+            } else {
+                homeView.classList.add('hidden');
+                concernsView.classList.remove('hidden');
+                navConcerns.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-amber-900 shadow-sm flex items-center space-x-2";
+                navHome.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-amber-950 hover:bg-amber-300 flex items-center space-x-2";
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        renderPriceInputs();
-        refreshUI();
-    });
 
-    function renderPriceInputs() {
-        const container = document.getElementById('priceInputsContainer');
-        if(!container) return;
-        container.innerHTML = "";
-        
-        Object.keys(sysConfig.gridPrices).forEach(key => {
-            const row = document.createElement('div');
-            row.className = "pricing-grid";
-            row.style.borderBottom = "1px solid var(--ui-border)";
-            row.innerHTML = `
-                <div style="font-weight:700; font-size:0.9rem;">${key}</div>
-                <div><input type="number" class="grid-price-input" data-key="${key}" value="${sysConfig.gridPrices[key]}"></div>
-                <div><input type="number" class="hybrid-price-input" data-key="${key}" value="${sysConfig.hybridPrices[key] || 0}"></div>
-            `;
-            container.appendChild(row);
-        });
-    }
-
-    document.getElementById('saveAdminSettings').onclick = () => {
-        const newGrid = {};
-        const newHybrid = {};
-        document.querySelectorAll('.grid-price-input').forEach(i => newGrid[i.dataset.key] = parseFloat(i.value));
-        document.querySelectorAll('.hybrid-price-input').forEach(i => newHybrid[i.dataset.key] = parseFloat(i.value));
-        
-        update(ref(db, 'settings'), { 
-            kwhRate: parseFloat(document.getElementById('adminKwhRate').value), 
-            gridPrices: newGrid,
-            hybridPrices: newHybrid 
-        }).then(() => alert("Pricing Updated Successfully!"));
-    };
-
-    window.switchMethod = (m) => {
-        document.getElementById('btnOptA').classList.toggle('active', m === 'A');
-        document.getElementById('btnOptB').classList.toggle('active', m === 'B');
-        document.getElementById('sectionBill').classList.toggle('hidden', m !== 'A');
-        document.getElementById('sectionAppliances').classList.toggle('hidden', m !== 'B');
-        document.getElementById('resBlockB').classList.toggle('hidden', m !== 'B');
-        m === 'A' ? calculateByBill() : updateTable();
-    };
-
-    window.calculateByBill = () => {
-        currentDaily = (parseFloat(document.getElementById('billInput').value) || 0) / sysConfig.rate / 30;
-        refreshUI();
-    };
-
-    window.updateTable = () => {
-        let daily = 0;
-        document.querySelectorAll('#applianceBody tr').forEach(row => {
-            const w = parseFloat(row.querySelector('.w').value) || 0;
-            const q = parseFloat(row.querySelector('.q').value) || 0;
-            const h = parseFloat(row.querySelector('.h').value) || 0;
-            const res = (w * q * h) / 1000;
-            row.querySelector('.row-kwh').innerText = res.toFixed(2);
-            daily += res;
-        });
-        currentDaily = daily;
-        refreshUI();
-    };
-
-    window.setSystemType = (type) => {
-        selectedType = type;
-        document.getElementById('typeGrid').classList.toggle('selected', type === 'Grid-Tie');
-        document.getElementById('typeHybrid').classList.toggle('selected', type === 'Hybrid');
-        refreshUI();
-    };
-
-    function refreshUI() {
-        const res = getSystemRecommendation(currentDaily);
-        document.getElementById('resInverterA').innerText = res.size;
-        document.getElementById('resSystemPrice').innerText = '₱' + res.price.toLocaleString();
-        if(document.getElementById('resDailyB')) document.getElementById('resDailyB').innerText = currentDaily.toFixed(2) + ' kWh';
-        if(document.getElementById('resMonthlyB')) document.getElementById('resMonthlyB').innerText = (currentDaily * 30).toFixed(0) + ' kWh';
-    }
-
-    function getSystemRecommendation(daily) {
-        if (daily <= 0) return { size: "---", price: 0 };
-        const kw = daily / 3.5;
-        let s = "3kW";
-        if (kw > 3.5 && kw <= 5.5) s = "5kW";
-        else if (kw > 5.5 && kw <= 8.5) s = "8kW";
-        else if (kw > 8.5 && kw <= 11) s = "10kW";
-        else if (kw > 11 && kw <= 17) s = "16kW";
-        else if (kw > 17) s = "20kW";
-        
-        // Uses explicit price based on type
-        let priceMap = selectedType === 'Hybrid' ? sysConfig.hybridPrices : sysConfig.gridPrices;
-        let finalPrice = priceMap[s] || 0;
-
-        return { size: s + " " + selectedType, price: Math.round(finalPrice) };
-    }
-
-    window.showView = (v) => {
-        ['calculatorView', 'loginView', 'adminView', 'adminSidebar'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add('hidden');
-        });
-        if (v === 'admin') {
-            document.getElementById('adminView').classList.remove('hidden');
-            document.getElementById('adminSidebar').classList.remove('hidden');
-        } else {
-            document.getElementById(v + 'View').classList.remove('hidden');
+        // Render Home Categories
+        function renderHomeCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = healthData.map(cat => `
+                <div onclick="selectCategoryAndNavigate('${cat.id}')" class="bg-amber-50/50 hover:bg-amber-100/80 border border-amber-200 p-5 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md flex flex-col justify-between group">
+                    <div>
+                        <div class="w-10 h-10 bg-amber-400 text-amber-950 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition shadow-sm">
+                            <i class="fas ${cat.icon} text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 leading-snug">${cat.category}</h4>
+                        <p class="text-xs text-slate-500 font-medium">${cat.conditions.length} condition${cat.conditions.length > 1 ? 's' : ''}</p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-bold text-amber-700 group-hover:text-amber-900">
+                        <span>View Guide</span>
+                        <i class="fas fa-chevron-right ml-1 text-[10px]"></i>
+                    </div>
+                </div>
+            `).join('');
         }
-    };
 
-    window.exitAdmin = () => {
-        document.getElementById('adminSidebar').classList.remove('mobile-open');
-        showView('calculator');
-    }
+        // Populate Category Filter Dropdown
+        function populateCategoryFilter() {
+            const select = document.getElementById('category-filter');
+            const options = healthData.map(cat => `<option value="${cat.id}">${cat.category}</option>`).join('');
+            select.innerHTML = '<option value="ALL">All Categories</option>' + options;
+        }
 
-    document.getElementById('menuToggle').onclick = () => document.getElementById('adminSidebar').classList.toggle('mobile-open');
+        // Select Category and Navigate to Concerns View
+        function selectCategoryAndNavigate(catId) {
+            selectedCategory = catId;
+            document.getElementById('category-filter').value = catId;
+            const categoryObj = healthData.find(c => c.id === catId);
+            if (categoryObj && categoryObj.conditions.length > 0) {
+                selectedConditionId = categoryObj.conditions[0].id;
+            }
+            renderConditionPills();
+            renderGuideDisplay();
+            navigateTo('concerns');
+        }
 
-    window.switchAdminTab = (tab, btn) => {
-        document.getElementById('adminSectionInquiries').classList.toggle('hidden', tab !== 'inquiries');
-        document.getElementById('adminSectionPricing').classList.toggle('hidden', tab !== 'pricing');
-        document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-        btn.classList.add('active');
-    };
+        // Filter Handler
+        function filterByCategory(catId) {
+            selectedCategory = catId;
+            if (catId === 'ALL') {
+                selectedConditionId = healthData[0].conditions[0].id;
+            } else {
+                const categoryObj = healthData.find(c => c.id === catId);
+                if (categoryObj && categoryObj.conditions.length > 0) {
+                    selectedConditionId = categoryObj.conditions[0].id;
+                }
+            }
+            renderConditionPills();
+            renderGuideDisplay();
+        }
 
-    document.getElementById('navAdminBtn').onclick = () => auth.currentUser ? showView('admin') : showView('login');
-    document.getElementById('backToCalc').onclick = () => showView('calculator');
+        // Render Condition Pills
+        function renderConditionPills() {
+            const container = document.getElementById('condition-pills');
+            let conditionsToDisplay = [];
 
-    document.getElementById('doLoginBtn').onclick = () => {
-        signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPass').value)
-            .then(() => showView('admin'))
-            .catch(err => alert("Login Failed"));
-    };
+            if (selectedCategory === 'ALL') {
+                healthData.forEach(cat => {
+                    conditionsToDisplay = conditionsToDisplay.concat(cat.conditions);
+                });
+            } else {
+                const catObj = healthData.find(c => c.id === selectedCategory);
+                if (catObj) conditionsToDisplay = catObj.conditions;
+            }
 
-    document.getElementById('logoutBtnSidebar').onclick = () => signOut(auth).then(() => location.reload());
+            container.innerHTML = conditionsToDisplay.map(cond => {
+                const isSelected = cond.id === selectedConditionId;
+                const activeClasses = isSelected ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-white text-slate-700 hover:bg-amber-100 font-semibold border border-amber-200';
+                return `<button onclick="selectCondition('${cond.id}')" class="px-3.5 py-1.5 rounded-xl text-xs transition ${activeClasses}">${cond.name}</button>`;
+            }).join('');
+        }
 
-    onAuthStateChanged(auth, user => { if (user) loadInquiries(); });
+        // Select Condition
+        function selectCondition(condId) {
+            selectedConditionId = condId;
+            renderConditionPills();
+            renderGuideDisplay();
+        }
 
-    window.loadInquiries = () => {
-        const filterVal = document.getElementById('monthFilter').value;
-        onValue(ref(db, 'inquiries'), (snapshot) => {
-            const body = document.getElementById('adminTableBody');
-            if(!body) return;
-            body.innerHTML = "";
-            let inquiriesArray = [];
-            snapshot.forEach(child => { inquiriesArray.push({ key: child.key, ...child.val() }); });
-            inquiriesArray.sort((a, b) => b.timestamp - a.timestamp);
+        // Search Logic
+        function handleSearch(query) {
+            const resultsDiv = document.getElementById('search-results');
+            if (!query.trim()) {
+                resultsDiv.classList.add('hidden');
+                return;
+            }
 
-            inquiriesArray.forEach(data => {
-                const dateObj = new Date(data.timestamp);
-                const monthYear = dateObj.toISOString().slice(0, 7);
-                const displayDate = dateObj.toLocaleDateString('en-GB');
-                if (filterVal && monthYear !== filterVal) return;
+            const term = query.toLowerCase();
+            let matches = [];
 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td data-label="Client Info" style="font-size:0.75rem">
-                        <strong>${data.name}</strong><br>${data.contact}<br>
-                        <span style="color:var(--text-muted)">${data.address || ''}</span>
-                    </td>
-                    <td data-label="System">${data.rec}</td>
-                    <td data-label="Date" style="font-size:0.7rem; color:var(--text-muted)">${displayDate}</td>
-                    <td><button class="btn-danger" onclick="deleteInquiry('${data.key}')">×</button></td>
-                `;
-                body.appendChild(tr);
+            healthData.forEach(cat => {
+                cat.conditions.forEach(cond => {
+                    const nameMatch = cond.name.toLowerCase().includes(term);
+                    const symptomMatch = cond.symptomsList.some(s => s.toLowerCase().includes(term));
+                    if (nameMatch || symptomMatch) {
+                        matches.push({ cond, cat });
+                    }
+                });
             });
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `<div class="p-4 text-xs text-slate-500 font-medium text-center">No matching health concerns found.</div>`;
+            } else {
+                resultsDiv.innerHTML = matches.map(m => `
+                    <div onclick="selectSearchResult('${m.cat.id}', '${m.cond.id}')" class="p-3 hover:bg-amber-50 cursor-pointer transition flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-xs text-slate-900">${m.cond.name}</p>
+                            <p class="text-[11px] text-slate-500 font-medium">${m.cat.category}</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-xs text-amber-500"></i>
+                    </div>
+                `).join('');
+            }
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function selectSearchResult(catId, condId) {
+            document.getElementById('search-results').classList.add('hidden');
+            document.getElementById('home-search').value = '';
+            selectedCategory = catId;
+            document.getElementById('category-filter').value = catId;
+            selectedConditionId = condId;
+            renderConditionPills();
+            renderGuideDisplay();
+            navigateTo('concerns');
+        }
+
+        // Render Main Guide Display
+        function renderGuideDisplay() {
+            const container = document.getElementById('guide-display-container');
+            let condition = null;
+            let category = null;
+
+            healthData.forEach(cat => {
+                const found = cat.conditions.find(c => c.id === selectedConditionId);
+                if (found) {
+                    condition = found;
+                    category = cat;
+                }
+            });
+
+            if (!condition) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">Select a health concern above to view guidance details.</div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="bg-white border-2 border-amber-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                    <!-- Title & Header -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-100 pb-5">
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-full mb-2">
+                                <i class="fas ${category.icon}"></i> ${category.category}
+                            </span>
+                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">${condition.name}</h3>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms List Pill Tags -->
+                    <div>
+                        <h4 class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Common Associated Symptoms</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${condition.symptomsList.map(s => `<span class="px-3 py-1 bg-slate-100 text-slate-700 font-bold rounded-lg text-xs border border-slate-200"><i class="fas fa-check text-amber-500 mr-1.5"></i>${s}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Guidance Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <!-- What to Do -->
+                        <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-5 space-y-2">
+                            <div class="flex items-center space-x-2 text-amber-900 font-black text-sm">
+                                <div class="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center text-xs">
+                                    <i class="fas fa-circle-check"></i>
+                                </div>
+                                <span>What to Do</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
+                                ${condition.whatToDo}
+                            </p>
+                        </div>
+
+                        <!-- What NOT to Do -->
+                        <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-5 space-y-2">
+                            <div class="flex items-center space-x-2 text-rose-900 font-black text-sm">
+                                <div class="w-7 h-7 bg-rose-200 text-rose-800 rounded-lg flex items-center justify-center text-xs">
+                                    <i class="fas fa-circle-xmark"></i>
+                                </div>
+                                <span>What NOT to Do</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
+                                ${condition.whatNotToDo}
+                            </p>
+                        </div>
+
+                        <!-- Practical Self-Care -->
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-2">
+                            <div class="flex items-center space-x-2 text-slate-900 font-black text-sm">
+                                <div class="w-7 h-7 bg-slate-200 rounded-lg flex items-center justify-center text-xs text-slate-700">
+                                    <i class="fas fa-hands-holding-child"></i>
+                                </div>
+                                <span>Practical Self-Care</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
+                                ${condition.selfCare}
+                            </p>
+                        </div>
+
+                        <!-- What to Watch For -->
+                        <div class="bg-amber-100/60 border border-amber-300 rounded-2xl p-5 space-y-2">
+                            <div class="flex items-center space-x-2 text-amber-950 font-black text-sm">
+                                <div class="w-7 h-7 bg-amber-300 rounded-lg flex items-center justify-center text-xs text-amber-900">
+                                    <i class="fas fa-triangle-exclamation"></i>
+                                </div>
+                                <span>What to Watch For</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
+                                ${condition.whatToWatchFor}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initial Load Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHomeCategories();
+            populateCategoryFilter();
+            if (healthData.length > 0 && healthData[0].conditions.length > 0) {
+                selectedConditionId = healthData[0].conditions[0].id;
+                renderConditionPills();
+                renderGuideDisplay();
+            }
         });
-    };
-
-    window.deleteInquiry = (k) => { if(confirm('Delete this inquiry?')) remove(ref(db, 'inquiries/' + k)); };
-
-    document.getElementById('submitBtn').onclick = () => {
-        const name = document.getElementById('clientName').value;
-        const contact = document.getElementById('clientContact').value;
-        if(!name || !contact) return alert("Please provide Name and Contact number.");
-        const rec = getSystemRecommendation(currentDaily);
-        push(ref(db, 'inquiries'), {
-            timestamp: Date.now(), name, contact, 
-            email: document.getElementById('clientEmail').value,
-            address: document.getElementById('clientAddress').value,
-            rec: rec.size, price: rec.price
-        }).then(() => { alert("Your inquiry has been sent!"); location.reload(); });
-    };
-
-    window.addRow = () => {
-        const tr = document.createElement('tr');
-        let options = Object.keys(APPLIANCE_LIBRARY).map(k => {
-            const isDisabled = k.startsWith('--') ? 'disabled' : '';
-            const isHeader = k.startsWith('--') ? 'style="background:#eee; font-weight:bold; color:#1b4332;"' : '';
-            return `<option value="${APPLIANCE_LIBRARY[k]}" ${isDisabled} ${isHeader}>${k}</option>`;
-        }).join('');
-        
-        tr.innerHTML = `
-            <td data-label="Appliance"><select onchange="this.parentElement.parentElement.querySelector('.w').value=this.value; updateTable();">${options}</select></td>
-            <td data-label="Watts"><input type="number" class="w" value="0" oninput="updateTable()"></td>
-            <td data-label="Qty"><input type="number" class="q" value="1" oninput="updateTable()"></td>
-            <td data-label="Hrs/Day"><input type="number" class="h" value="1" oninput="updateTable()"></td>
-            <td data-label="Total kWh" class="row-kwh">0.00</td>
-            <td class="btn-danger-row"><button class="btn-danger" onclick="this.parentElement.parentElement.remove();updateTable();">×</button></td>
-        `;
-        document.getElementById('applianceBody').appendChild(tr);
-    };
-
-    addRow();
-</script>
+    </script>
 </body>
 </html>
