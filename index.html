@@ -55,10 +55,10 @@
     <!-- Header / Navbar -->
     <header class="bg-amber-400 text-slate-950 shadow-md sticky top-0 z-50 border-b-4 border-amber-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Brand Title -->
+            <div class="flex items-center justify-between h-20 sm:h-24 py-2">
+                <!-- Brand Title & Company Info -->
                 <div class="flex items-center space-x-3 cursor-pointer group" onclick="navigateTo('home')">
-                    <div class="bg-white text-amber-600 font-black text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-md flex items-center justify-center transform group-hover:scale-105 transition">
+                    <div class="bg-white text-amber-600 font-black text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-md flex items-center justify-center transform group-hover:scale-105 transition flex-shrink-0">
                         1S
                     </div>
                     <div>
@@ -66,7 +66,19 @@
                             ONE SOURCE
                             <span class="inline-block w-2.5 h-2.5 rounded-full bg-white shadow-sm"></span>
                         </h1>
-                        <p class="text-xs text-amber-950 font-bold tracking-wide">Stay Healthy. Stay Productive.</p>
+                        <!-- Added Details Below Company Name -->
+                        <div class="text-xs text-amber-950 font-bold tracking-tight space-y-0.5">
+                            <p class="flex items-center gap-1.5">
+                                <i class="fas fa-phone-alt text-slate-900 text-[10px]"></i>
+                                <span>09981517895</span>
+                            </p>
+                            <p class="flex items-center gap-1.5">
+                                <i class="fab fa-facebook text-slate-900 text-[11px]"></i>
+                                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" class="hover:underline font-extrabold text-slate-950">
+                                    Tatak Ossi Bataan Payslip
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -126,7 +138,7 @@
                     <i class="fas fa-magnifying-glass text-amber-600 mr-1.5"></i> Quick Health Concern Search
                 </label>
                 <div class="relative">
-                    <input type="text" id="home-search" oninput="handleSearch(this.value)" placeholder="Search symptoms or concerns (e.g. Toothache, Hypertension, Fever, Asthma, UTI)..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-amber-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none text-slate-900 font-medium text-sm shadow-sm transition">
+                    <input type="text" id="home-search" oninput="handleSearch(this.value)" placeholder="Search symptoms or concerns (e.g. Systemic Viral Infection, Toothache, Fever, UTI)..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-amber-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none text-slate-900 font-medium text-sm shadow-sm transition">
                     <i class="fas fa-search absolute left-4 top-4 text-amber-500"></i>
                 </div>
                 <!-- Search Live Results -->
@@ -222,16 +234,13 @@
                         whatToDo: 'Check and record blood pressure if a reliable BP monitor is available. Sit and rest calmly in a comfortable environment. Take prescribed medication only according to your healthcare professional\'s instructions.',
                         whatNotToDo: 'Do not take extra medication unless directed by a healthcare professional. Do not ignore severe or unusual symptoms.',
                         selfCare: 'Practice calm breathing exercises. Rest quietly away from noise and bright lights.',
-                        whatToWatchFor: 'Persistent high blood pressure readings, persistent dizziness, or worsening headache.'
-                    },
-                    {
-                        name: 'Animal Bite',
-                        id: 'cns-animal-bite',
-                        symptomsList: ['Puncture wounds', 'Skin tears', 'Localized bleeding', 'Pain at bite site', 'Swelling'],
-                        whatToDo: 'Clean the wound promptly with soap and running water. Keep the area clean.',
-                        whatNotToDo: 'Do not apply harmful or irritating substances to the wound. Do not delay professional assessment.',
-                        selfCare: 'Keep affected limb elevated if swollen. Cover with a clean dry dressing.',
-                        whatToWatchFor: 'Increasing redness, warmth, swelling, or oozing at the bite site.'
+                        whatToWatchFor: 'Persistent high blood pressure readings, persistent dizziness, or worsening headache.',
+                        severeRecommend: [
+                            'Blood pressure reading exceeding 180/120 mmHg.',
+                            'Sudden severe chest pain, radiating pain, or severe shortness of breath.',
+                            'Sudden weakness, numbness in arms/face, difficulty speaking, or sudden loss of vision.',
+                            'Severe unrelenting headache accompanied by fainting or sudden confusion.'
+                        ]
                     }
                 ]
             },
@@ -247,7 +256,13 @@
                         whatToDo: 'Keep the mouth clean. Rinse gently with clean water. Avoid foods or drinks that worsen the pain.',
                         whatNotToDo: 'Do not place aspirin directly against the gums or tooth. Avoid extremely hot, cold, or hard foods.',
                         selfCare: 'Gently floss around the area to remove trapped food particles. Apply an external cool pack to the cheek if comfortable.',
-                        whatToWatchFor: 'Facial swelling, fever, severe or worsening pain, difficulty swallowing, or difficulty breathing.'
+                        whatToWatchFor: 'Facial swelling, fever, severe or worsening pain, difficulty swallowing, or difficulty breathing.',
+                        severeRecommend: [
+                            'Rapidly spreading facial or neck swelling that affects eye closure or airway.',
+                            'Difficulty swallowing (dysphagia) or difficulty breathing due to swelling in the oral cavity.',
+                            'High fever associated with severe throbbing dental pain and visible jaw pus.',
+                            'Uncontrolled bleeding from gums or oral tissue.'
+                        ]
                     },
                     {
                         name: 'Tooth Extraction',
@@ -256,7 +271,13 @@
                         whatToDo: 'Follow the dentist\'s instructions carefully. Protect the extraction area. Follow instructions regarding eating, drinking, and oral hygiene. Monitor bleeding, swelling, and pain.',
                         whatNotToDo: 'Do not spit forcefully, smoke, or drink through a straw for 24–48 hours. Do not touch the extraction site with fingers or tongue.',
                         selfCare: 'Rest with head elevated. Eat soft, cool foods like yogurt or broth.',
-                        whatToWatchFor: 'Persistent or heavy bleeding, increasing swelling, severe pain, fever, or pus.'
+                        whatToWatchFor: 'Persistent or heavy bleeding, increasing swelling, severe pain, fever, or pus.',
+                        severeRecommend: [
+                            'Uncontrolled continuous bleeding from the socket despite biting firmly on gauze for 30–60 minutes.',
+                            'Severe intractable pain not relieved by recommended measures after 24–48 hours (possible dry socket or infection).',
+                            'High fever (>38.5°C) or foul-smelling pus draining from the extraction site.',
+                            'Swelling that extends down the neck or into the lower jaw causing breathing/swallowing difficulty.'
+                        ]
                     }
                 ]
             },
@@ -272,7 +293,13 @@
                         whatToDo: 'Rest. Drink appropriate fluids. Monitor symptoms.',
                         whatNotToDo: 'Do NOT automatically use antibiotics. Antibiotics should only be used when prescribed or determined to be appropriate by a qualified healthcare professional.',
                         selfCare: 'Gargle warm salt water gently. Use soothing lozenges if helpful.',
-                        whatToWatchFor: 'High fever, white patches on tonsils, or inability to swallow liquids.'
+                        whatToWatchFor: 'High fever, white patches on tonsils, or inability to swallow liquids.',
+                        severeRecommend: [
+                            'Inability to swallow fluids leading to clinical dehydration.',
+                            'Difficulty breathing or audible stridor / noisy breathing.',
+                            'Severe one-sided throat pain with inability to open mouth fully (trismus), indicating a potential peritonsillar abscess.',
+                            'High persistent fever accompanied by severe chills or rigors.'
+                        ]
                     },
                     {
                         name: 'ATP (Acute Tonsillopharyngitis)',
@@ -281,7 +308,13 @@
                         whatToDo: 'Rest. Drink appropriate fluids. Monitor your symptoms closely.',
                         whatNotToDo: 'Do not take unprescribed antibiotics or irritate throat with smoke or harsh foods.',
                         selfCare: 'Sip warm fluids like broth or tea. Maintain good oral hygiene.',
-                        whatToWatchFor: 'Worsening throat pain, persistent fever, or difficulty opening mouth.'
+                        whatToWatchFor: 'Worsening throat pain, persistent fever, or difficulty opening mouth.',
+                        severeRecommend: [
+                            'Rapidly progressing throat closure or compromised airway.',
+                            'Inability to manage oral secretions (drooling due to severe pain or obstruction).',
+                            'High fever (>38.5°C) persisting longer than 3–4 days without improvement.',
+                            'Extreme systemic weakness, lethargy, or confusion.'
+                        ]
                     }
                 ]
             },
@@ -297,7 +330,13 @@
                         whatToDo: 'Maintain hydration when appropriate by taking small, frequent sips of water or oral rehydration fluids. Rest and choose bland foods that are easier to tolerate.',
                         whatNotToDo: 'Do not consume dairy, greasy, or spicy foods. Avoid anti-diarrheal medication without professional guidance if fever or bloody stool is present.',
                         selfCare: 'Rest quietly and gradually introduce bland foods like rice, toast, or bananas.',
-                        whatToWatchFor: 'Signs of dehydration (dry mouth, dark urine, extreme fatigue), persistent vomiting, or severe abdominal pain.'
+                        whatToWatchFor: 'Signs of dehydration (dry mouth, dark urine, extreme fatigue), persistent vomiting, or severe abdominal pain.',
+                        severeRecommend: [
+                            'Signs of severe dehydration: dark minimal urine, lightheadedness, sunken eyes, or fainting.',
+                            'Presence of significant blood or dark tarry material in vomit or stool.',
+                            'Continuous vomiting that completely prevents fluid retention for more than 24 hours.',
+                            'Severe, acute localized abdominal pain (especially lower right quadrant pain).'
+                        ]
                     },
                     {
                         name: 'Acute Gastritis',
@@ -306,7 +345,13 @@
                         whatToDo: 'Eat smaller, lighter meals. Stay upright for a while after eating. Rest and stay hydrated with plain water.',
                         whatNotToDo: 'Avoid acidic, spicy, or fried foods. Avoid taking pain relievers on an empty stomach without guidance.',
                         selfCare: 'Apply a warm compress to upper abdomen for comfort.',
-                        whatToWatchFor: 'Persistent stomach pain, dark stool, or vomiting.'
+                        whatToWatchFor: 'Persistent stomach pain, dark stool, or vomiting.',
+                        severeRecommend: [
+                            'Vomiting blood (bright red or dark brown "coffee-ground" appearance).',
+                            'Black, sticky, or tarry stools (melena).',
+                            'Severe, sharp, sudden abdominal pain that radiates to the back or shoulder.',
+                            'Unexplained weight loss, persistent fever, or progressive difficulty swallowing.'
+                        ]
                     },
                     {
                         name: 'ARD (Acid Related Disorder)',
@@ -315,7 +360,13 @@
                         whatToDo: 'Remain seated or standing upright after meals. Choose non-acidic foods and sip water.',
                         whatNotToDo: 'Do not lie down immediately after eating. Avoid coffee, carbonated drinks, and tight waist clothing.',
                         selfCare: 'Eat smaller meal portions at regular intervals.',
-                        whatToWatchFor: 'Difficulty swallowing or persistent burning discomfort.'
+                        whatToWatchFor: 'Difficulty swallowing or persistent burning discomfort.',
+                        severeRecommend: [
+                            'Chest pain radiating to arm, neck, or jaw accompanied by shortness of breath or sweating (must rule out cardiac event).',
+                            'Dysphagia (food sticking in esophagus) or painful swallowing (odynophagia).',
+                            'Persistent vomiting, anemia, or vomiting blood.',
+                            'Unexplained unintentional weight loss.'
+                        ]
                     }
                 ]
             },
@@ -331,7 +382,13 @@
                         whatToDo: 'Maintain appropriate hydration unless medically restricted. Monitor urinary symptoms closely.',
                         whatNotToDo: 'Do not hold urine when feeling the urge to go. Avoid caffeine and sweetened drinks.',
                         selfCare: 'Drink clean water throughout the day. Maintain proper hygiene.',
-                        whatToWatchFor: 'Fever, flank or back pain, vomiting, or worsening symptoms.'
+                        whatToWatchFor: 'Fever, flank or back pain, vomiting, or worsening symptoms.',
+                        severeRecommend: [
+                            'High fever (>38°C) accompanied by chills, shaking, or rigors.',
+                            'Severe flank, side, or upper back pain (indicating upper urinary tract / kidney involvement / pyelonephritis).',
+                            'Visible blood in urine (gross hematuria) or severe urinary retention / inability to pass urine.',
+                            'Confusion, altered mental status, or extreme weakness (especially in older individuals).'
+                        ]
                     }
                 ]
             },
@@ -347,7 +404,13 @@
                         whatToDo: 'Clean minor wounds appropriately if present. Keep the area clean and protected. Monitor changes in the skin border closely.',
                         whatNotToDo: 'Do not squeeze, rub, or scratch the affected skin. Avoid dirty bandages.',
                         selfCare: 'Elevate the affected arm or leg when sitting.',
-                        whatToWatchFor: 'Increasing redness, swelling, warmth, pus, fever, or redness spreading from the affected area.'
+                        whatToWatchFor: 'Increasing redness, swelling, warmth, pus, fever, or redness spreading from the affected area.',
+                        severeRecommend: [
+                            'Rapid expansion of skin redness/swelling despite conservative care or marked borders.',
+                            'High fever, chills, confusion, or low blood pressure (systemic involvement / sepsis risk).',
+                            'Blistering, purple discoloration, or skin necrosis/blackening in the affected area.',
+                            'Infection located near the eye, face, or across major joint spaces.'
+                        ]
                     },
                     {
                         name: 'Abrasion',
@@ -356,7 +419,13 @@
                         whatToDo: 'Clean minor wounds appropriately with clean water and gentle soap. Cover with a clean sterile dressing to keep protected.',
                         whatNotToDo: 'Do not rub aggressively or apply harsh unverified chemicals to open skin.',
                         selfCare: 'Keep area clean and dry; replace bandage if wet or dirty.',
-                        whatToWatchFor: 'Increasing redness, pus, swelling, or throbbing pain.'
+                        whatToWatchFor: 'Increasing redness, pus, swelling, or throbbing pain.',
+                        severeRecommend: [
+                            'Signs of acute infection: red streaks radiating from wound, yellow/green pus, or elevated body temperature.',
+                            'Wound caused by dirty metal, animal/human bite, or deep contamination requiring tetanus booster or surgical debridement.',
+                            'Uncontrolled bleeding or failure of surface tissue to form a clean scab.',
+                            'Numbness or loss of sensation distal to the wound location.'
+                        ]
                     }
                 ]
             },
@@ -372,7 +441,13 @@
                         whatToDo: 'Rest from activities that worsen pain. Use proper workplace ergonomics. Adjust posture and workstation setup. Gentle movement or stretching may be appropriate when it does not worsen symptoms.',
                         whatNotToDo: 'Avoid activities that significantly increase pain. Avoid prolonged static sitting or improper lifting.',
                         selfCare: 'Take short posture breaks every hour. Apply warm or cool pack as comfortable.',
-                        whatToWatchFor: 'Numbness, tingling, or pain radiating into arms or legs.'
+                        whatToWatchFor: 'Numbness, tingling, or pain radiating into arms or legs.',
+                        severeRecommend: [
+                            'Loss of bowel or bladder control (cauda equina emergency).',
+                            'Sudden progressive muscle weakness or paralysis in limbs (e.g. foot drop).',
+                            'Severe pain following acute trauma or high-impact workplace injury.',
+                            'Unexplained weight loss, fever, or pain that awakens you from sleep at night.'
+                        ]
                     },
                     {
                         name: 'MSS (Musculoskeletal Strain)',
@@ -381,334 +456,311 @@
                         whatToDo: 'Rest affected joint or muscle. Apply cold pack wrapped in a cloth for 15 minutes at a time. Elevate when resting.',
                         whatNotToDo: 'Do not force painful joint movements or engage in heavy lifting while inflamed.',
                         selfCare: 'Support joint with light compression if comfortable.',
-                        whatToWatchFor: 'Significant weakness, numbness, loss of function, or severe pain.'
-                    }
-                ]
-            },
-            {
-                id: 'neuro',
-                category: 'Neuro',
-                icon: 'fa-brain',
-                conditions: [
-                    {
-                        name: 'Headache',
-                        id: 'neuro-headache',
-                        symptomsList: ['Pressure around forehead', 'Tension in neck', 'Eye fatigue', 'Light sensitivity'],
-                        whatToDo: 'Rest in a quiet area. Maintain appropriate hydration. Record temperature when appropriate. Identify possible triggers such as screen fatigue or stress. Monitor symptoms.',
-                        whatNotToDo: 'Avoid excessive screen exposure, loud environments, and skipping meals.',
-                        selfCare: 'Place a cool cloth over forehead and stretch neck muscles gently.',
-                        whatToWatchFor: 'Severe or unusual headache, confusion, new weakness, or vision changes.'
-                    },
-                    {
-                        name: 'Fever',
-                        id: 'neuro-fever',
-                        symptomsList: ['Elevated temperature (>37.5°C)', 'Chills', 'Body aches', 'Fatigue', 'Sweating'],
-                        whatToDo: 'Rest adequately. Maintain appropriate hydration with water and fluids. Record temperature regularly with a reliable thermometer. Monitor symptoms closely.',
-                        whatNotToDo: 'Do not bundle in heavy blankets or take freezing baths.',
-                        selfCare: 'Wear light, comfortable clothing and stay in a well-ventilated room.',
-                        whatToWatchFor: 'Persistent high fever, severe headache, stiff neck, or difficulty breathing.'
-                    },
-                    {
-                        name: 'Migraine',
-                        id: 'neuro-migraine',
-                        symptomsList: ['Throbbing head pain on one side', 'Nausea', 'Light/sound sensitivity', 'Visual aura'],
-                        whatToDo: 'Rest in a darkened, quiet room. Maintain fluid intake. Apply cool compress to forehead. Monitor symptoms.',
-                        whatNotToDo: 'Avoid bright lights, loud noises, and known migraine trigger foods.',
-                        selfCare: 'Practice quiet relaxation and keep eyes closed.',
-                        whatToWatchFor: 'Unusual speech difficulty, new weakness, or prolonged symptoms.'
-                    }
-                ]
-            },
-            {
-                id: 'optha',
-                category: 'Optha',
-                icon: 'fa-eye',
-                conditions: [
-                    {
-                        name: 'Eye Irritation',
-                        id: 'optha-irritation',
-                        symptomsList: ['Eye redness', 'Gritty sensation', 'Watering', 'Itchiness'],
-                        whatToDo: 'Avoid rubbing the eyes. Wash hands frequently. Avoid sharing towels and personal items. Monitor symptoms.',
-                        whatNotToDo: 'Do not rub eyes with unwashed hands. Avoid wearing contact lenses while irritated.',
-                        selfCare: 'Rinse gently with sterile saline or artificial tears if dust is present.',
-                        whatToWatchFor: 'Serious eye pain, vision changes, significant swelling, or eye injury.'
-                    },
-                    {
-                        name: 'Conjunctivitis',
-                        id: 'optha-conjunctivitis',
-                        symptomsList: ['Red or pink eye appearance', 'Discharge', 'Crusting on eyelids', 'Itching'],
-                        whatToDo: 'Wash hands regularly. Use separate clean towels. Avoid rubbing eyes.',
-                        whatNotToDo: 'Do not touch the uninfected eye after touching the affected one.',
-                        selfCare: 'Apply a clean, cool compress over closed eyes for comfort.',
-                        whatToWatchFor: 'Severe pain, worsening discharge, or vision impairment.'
+                        whatToWatchFor: 'Inability to bear weight or worsening swelling.',
+                        severeRecommend: [
+                            'Inability to bear weight on leg/foot or move joint at all.',
+                            'Visible joint deformity, bone dislocation, or unnatural angle.',
+                            'Numbness, coldness, or pale color in fingers or toes below injured joint.',
+                            'Severe throbbing pain with extreme swelling and redness.'
+                        ]
                     }
                 ]
             }
         ];
 
-        // Global State
-        let selectedCategory = 'ALL';
+        // GLOBAL APP STATE
+        let currentView = 'home';
+        let selectedCategoryFilter = 'ALL';
         let selectedConditionId = null;
 
-        // Navigation function
-        function navigateTo(view) {
-            const homeView = document.getElementById('view-home');
-            const concernsView = document.getElementById('view-concerns');
+        // NAVIGATION LOGIC
+        function navigateTo(viewName, conditionId = null) {
+            currentView = viewName;
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-concerns').classList.add('hidden');
+
             const navHome = document.getElementById('nav-home');
             const navConcerns = document.getElementById('nav-concerns');
 
-            if (view === 'home') {
-                homeView.classList.remove('hidden');
-                concernsView.classList.add('hidden');
+            if (viewName === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
                 navHome.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-amber-900 shadow-sm flex items-center space-x-2";
                 navConcerns.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-amber-950 hover:bg-amber-300 flex items-center space-x-2";
-            } else {
-                homeView.classList.add('hidden');
-                concernsView.classList.remove('hidden');
+            } else if (viewName === 'concerns') {
+                document.getElementById('view-concerns').classList.remove('hidden');
                 navConcerns.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-amber-900 shadow-sm flex items-center space-x-2";
                 navHome.className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-amber-950 hover:bg-amber-300 flex items-center space-x-2";
+
+                if (conditionId) {
+                    selectedConditionId = conditionId;
+                } else if (!selectedConditionId) {
+                    selectedConditionId = healthData[0].conditions[0].id;
+                }
+                renderConcernsView();
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Render Home Categories
-        function renderHomeCategories() {
-            const grid = document.getElementById('categories-grid');
-            grid.innerHTML = healthData.map(cat => `
-                <div onclick="selectCategoryAndNavigate('${cat.id}')" class="bg-amber-50/50 hover:bg-amber-100/80 border border-amber-200 p-5 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-md flex flex-col justify-between group">
-                    <div>
-                        <div class="w-10 h-10 bg-amber-400 text-amber-950 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition shadow-sm">
-                            <i class="fas ${cat.icon} text-lg"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-900 text-sm mb-1 leading-snug">${cat.category}</h4>
-                        <p class="text-xs text-slate-500 font-medium">${cat.conditions.length} condition${cat.conditions.length > 1 ? 's' : ''}</p>
-                    </div>
-                    <div class="mt-4 flex items-center text-xs font-bold text-amber-700 group-hover:text-amber-900">
-                        <span>View Guide</span>
-                        <i class="fas fa-chevron-right ml-1 text-[10px]"></i>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Populate Category Filter Dropdown
-        function populateCategoryFilter() {
-            const select = document.getElementById('category-filter');
-            const options = healthData.map(cat => `<option value="${cat.id}">${cat.category}</option>`).join('');
-            select.innerHTML = '<option value="ALL">All Categories</option>' + options;
-        }
-
-        // Select Category and Navigate to Concerns View
-        function selectCategoryAndNavigate(catId) {
-            selectedCategory = catId;
-            document.getElementById('category-filter').value = catId;
-            const categoryObj = healthData.find(c => c.id === catId);
-            if (categoryObj && categoryObj.conditions.length > 0) {
-                selectedConditionId = categoryObj.conditions[0].id;
+        // INITIALIZE APP
+        function initApp() {
+            renderCategoriesGrid();
+            populateCategoryFilter();
+            if (healthData.length > 0 && healthData[0].conditions.length > 0) {
+                selectedConditionId = healthData[0].conditions[0].id;
             }
-            renderConditionPills();
-            renderGuideDisplay();
+        }
+
+        // RENDER HOME CATEGORIES
+        function renderCategoriesGrid() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = healthData.map(cat => {
+                const count = cat.conditions.length;
+                return `
+                    <div onclick="selectCategoryFromHome('${cat.id}')" class="bg-amber-50/50 hover:bg-amber-100/80 border border-amber-200 rounded-2xl p-5 cursor-pointer transition-all duration-200 transform hover:-translate-y-1 hover:shadow-md flex flex-col justify-between group">
+                        <div>
+                            <div class="w-10 h-10 rounded-xl bg-amber-400 text-amber-950 flex items-center justify-center text-lg mb-3 shadow-sm group-hover:scale-110 transition">
+                                <i class="fas ${cat.icon}"></i>
+                            </div>
+                            <h4 class="font-extrabold text-slate-900 text-sm sm:text-base leading-snug mb-1">${cat.category}</h4>
+                            <p class="text-xs text-slate-500 font-medium">${count} condition${count > 1 ? 's' : ''}</p>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs font-bold text-amber-700 group-hover:text-amber-900">
+                            <span>View Protocols</span>
+                            <i class="fas fa-chevron-right text-[10px] ml-1 transform group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectCategoryFromHome(catId) {
+            selectedCategoryFilter = catId;
+            document.getElementById('category-filter').value = catId;
+            const category = healthData.find(c => c.id === catId);
+            if (category && category.conditions.length > 0) {
+                selectedConditionId = category.conditions[0].id;
+            }
             navigateTo('concerns');
         }
 
-        // Filter Handler
-        function filterByCategory(catId) {
-            selectedCategory = catId;
-            if (catId === 'ALL') {
-                selectedConditionId = healthData[0].conditions[0].id;
-            } else {
-                const categoryObj = healthData.find(c => c.id === catId);
-                if (categoryObj && categoryObj.conditions.length > 0) {
-                    selectedConditionId = categoryObj.conditions[0].id;
-                }
-            }
-            renderConditionPills();
-            renderGuideDisplay();
+        // POPULATE FILTER DROPDOWN
+        function populateCategoryFilter() {
+            const select = document.getElementById('category-filter');
+            select.innerHTML = '<option value="ALL">All Categories</option>' +
+                healthData.map(c => `<option value="${c.id}">${c.category}</option>`).join('');
         }
 
-        // Render Condition Pills
+        // FILTER BY CATEGORY IN CONCERNS VIEW
+        function filterByCategory(catId) {
+            selectedCategoryFilter = catId;
+            let availableConditions = [];
+            if (catId === 'ALL') {
+                healthData.forEach(c => availableConditions.push(...c.conditions));
+            } else {
+                const cat = healthData.find(c => c.id === catId);
+                if (cat) availableConditions = cat.conditions;
+            }
+
+            if (availableConditions.length > 0) {
+                const currentStillValid = availableConditions.some(c => c.id === selectedConditionId);
+                if (!currentStillValid) {
+                    selectedConditionId = availableConditions[0].id;
+                }
+            }
+            renderConcernsView();
+        }
+
+        // RENDER CONCERNS VIEW (PILLS & GUIDE)
+        function renderConcernsView() {
+            renderConditionPills();
+            renderSelectedGuide();
+        }
+
         function renderConditionPills() {
             const container = document.getElementById('condition-pills');
             let conditionsToDisplay = [];
 
-            if (selectedCategory === 'ALL') {
-                healthData.forEach(cat => {
-                    conditionsToDisplay = conditionsToDisplay.concat(cat.conditions);
-                });
+            if (selectedCategoryFilter === 'ALL') {
+                healthData.forEach(c => conditionsToDisplay.push(...c.conditions));
             } else {
-                const catObj = healthData.find(c => c.id === selectedCategory);
-                if (catObj) conditionsToDisplay = catObj.conditions;
+                const cat = healthData.find(c => c.id === selectedCategoryFilter);
+                if (cat) conditionsToDisplay = cat.conditions;
             }
 
             container.innerHTML = conditionsToDisplay.map(cond => {
                 const isSelected = cond.id === selectedConditionId;
-                const activeClasses = isSelected ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-white text-slate-700 hover:bg-amber-100 font-semibold border border-amber-200';
-                return `<button onclick="selectCondition('${cond.id}')" class="px-3.5 py-1.5 rounded-xl text-xs transition ${activeClasses}">${cond.name}</button>`;
+                const baseClass = "px-4 py-2 rounded-xl text-xs font-extrabold transition-all duration-200 flex items-center space-x-1.5 cursor-pointer shadow-sm";
+                const activeClass = "bg-amber-500 text-slate-950 border border-amber-600 shadow";
+                const inactiveClass = "bg-white text-slate-700 border border-amber-200 hover:bg-amber-100 hover:text-slate-900";
+
+                return `
+                    <button onclick="selectCondition('${cond.id}')" class="${baseClass} ${isSelected ? activeClass : inactiveClass}">
+                        <span>${cond.name}</span>
+                    </button>
+                `;
             }).join('');
         }
 
-        // Select Condition
         function selectCondition(condId) {
             selectedConditionId = condId;
-            renderConditionPills();
-            renderGuideDisplay();
+            renderConcernsView();
         }
 
-        // Search Logic
-        function handleSearch(query) {
-            const resultsDiv = document.getElementById('search-results');
-            if (!query.trim()) {
-                resultsDiv.classList.add('hidden');
-                return;
-            }
-
-            const term = query.toLowerCase();
-            let matches = [];
-
-            healthData.forEach(cat => {
-                cat.conditions.forEach(cond => {
-                    const nameMatch = cond.name.toLowerCase().includes(term);
-                    const symptomMatch = cond.symptomsList.some(s => s.toLowerCase().includes(term));
-                    if (nameMatch || symptomMatch) {
-                        matches.push({ cond, cat });
-                    }
-                });
-            });
-
-            if (matches.length === 0) {
-                resultsDiv.innerHTML = `<div class="p-4 text-xs text-slate-500 font-medium text-center">No matching health concerns found.</div>`;
-            } else {
-                resultsDiv.innerHTML = matches.map(m => `
-                    <div onclick="selectSearchResult('${m.cat.id}', '${m.cond.id}')" class="p-3 hover:bg-amber-50 cursor-pointer transition flex items-center justify-between">
-                        <div>
-                            <p class="font-bold text-xs text-slate-900">${m.cond.name}</p>
-                            <p class="text-[11px] text-slate-500 font-medium">${m.cat.category}</p>
-                        </div>
-                        <i class="fas fa-chevron-right text-xs text-amber-500"></i>
-                    </div>
-                `).join('');
-            }
-            resultsDiv.classList.remove('hidden');
-        }
-
-        function selectSearchResult(catId, condId) {
-            document.getElementById('search-results').classList.add('hidden');
-            document.getElementById('home-search').value = '';
-            selectedCategory = catId;
-            document.getElementById('category-filter').value = catId;
-            selectedConditionId = condId;
-            renderConditionPills();
-            renderGuideDisplay();
-            navigateTo('concerns');
-        }
-
-        // Render Main Guide Display
-        function renderGuideDisplay() {
+        function renderSelectedGuide() {
             const container = document.getElementById('guide-display-container');
-            let condition = null;
-            let category = null;
+            let foundCond = null;
+            let foundCat = null;
 
-            healthData.forEach(cat => {
-                const found = cat.conditions.find(c => c.id === selectedConditionId);
-                if (found) {
-                    condition = found;
-                    category = cat;
+            for (const cat of healthData) {
+                const cond = cat.conditions.find(c => c.id === selectedConditionId);
+                if (cond) {
+                    foundCond = cond;
+                    foundCat = cat;
+                    break;
                 }
-            });
+            }
 
-            if (!condition) {
-                container.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">Select a health concern above to view guidance details.</div>`;
+            if (!foundCond) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-500">Please select a health condition above.</div>`;
                 return;
             }
 
             container.innerHTML = `
-                <div class="bg-white border-2 border-amber-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                    <!-- Title & Header -->
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-100 pb-5">
+                <div class="bg-white rounded-3xl border border-amber-200 shadow-xl overflow-hidden space-y-6">
+                    <!-- Header Bar -->
+                    <div class="bg-amber-100 border-b border-amber-200 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-full mb-2">
-                                <i class="fas ${category.icon}"></i> ${category.category}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-200 text-amber-950 text-xs font-black rounded-full uppercase tracking-wider mb-2">
+                                <i class="fas ${foundCat.icon}"></i> ${foundCat.category}
                             </span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">${condition.name}</h3>
+                            <h2 class="text-2xl sm:text-3xl font-black text-slate-950">${foundCond.name}</h2>
                         </div>
                     </div>
 
-                    <!-- Symptoms List Pill Tags -->
-                    <div>
-                        <h4 class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Common Associated Symptoms</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${condition.symptomsList.map(s => `<span class="px-3 py-1 bg-slate-100 text-slate-700 font-bold rounded-lg text-xs border border-slate-200"><i class="fas fa-check text-amber-500 mr-1.5"></i>${s}</span>`).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Guidance Cards Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                        <!-- What to Do -->
-                        <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-5 space-y-2">
-                            <div class="flex items-center space-x-2 text-amber-900 font-black text-sm">
-                                <div class="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center text-xs">
-                                    <i class="fas fa-circle-check"></i>
-                                </div>
-                                <span>What to Do</span>
+                    <div class="p-6 sm:p-8 space-y-8">
+                        <!-- Symptoms List -->
+                        <div>
+                            <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 mb-3 flex items-center gap-2">
+                                <i class="fas fa-notes-medical text-amber-600"></i> Common Symptoms
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                ${foundCond.symptomsList.map(s => `
+                                    <span class="px-3 py-1.5 bg-amber-50 text-slate-800 text-xs font-bold rounded-lg border border-amber-200/80 flex items-center gap-1.5">
+                                        <i class="fas fa-circle text-[6px] text-amber-500"></i> ${s}
+                                    </span>
+                                `).join('')}
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
-                                ${condition.whatToDo}
-                            </p>
                         </div>
 
-                        <!-- What NOT to Do -->
-                        <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-5 space-y-2">
-                            <div class="flex items-center space-x-2 text-rose-900 font-black text-sm">
-                                <div class="w-7 h-7 bg-rose-200 text-rose-800 rounded-lg flex items-center justify-center text-xs">
-                                    <i class="fas fa-circle-xmark"></i>
-                                </div>
-                                <span>What NOT to Do</span>
+                        <!-- Do & Don't Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-5 space-y-2">
+                                <h4 class="font-extrabold text-emerald-950 text-sm flex items-center gap-2">
+                                    <i class="fas fa-circle-check text-emerald-600"></i> What To Do
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">${foundCond.whatToDo}</p>
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
-                                ${condition.whatNotToDo}
-                            </p>
+
+                            <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-5 space-y-2">
+                                <h4 class="font-extrabold text-rose-950 text-sm flex items-center gap-2">
+                                    <i class="fas fa-circle-xmark text-rose-600"></i> What NOT To Do
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">${foundCond.whatNotToDo}</p>
+                            </div>
                         </div>
 
-                        <!-- Practical Self-Care -->
-                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-2">
-                            <div class="flex items-center space-x-2 text-slate-900 font-black text-sm">
-                                <div class="w-7 h-7 bg-slate-200 rounded-lg flex items-center justify-center text-xs text-slate-700">
-                                    <i class="fas fa-hands-holding-child"></i>
-                                </div>
-                                <span>Practical Self-Care</span>
+                        <!-- Self-Care & Watch For Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="bg-amber-50/40 border border-amber-200/80 rounded-2xl p-5 space-y-2">
+                                <h4 class="font-extrabold text-amber-950 text-sm flex items-center gap-2">
+                                    <i class="fas fa-hand-holding-heart text-amber-600"></i> Practical Self-Care Measures
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">${foundCond.selfCare}</p>
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
-                                ${condition.selfCare}
-                            </p>
+
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-2">
+                                <h4 class="font-extrabold text-slate-900 text-sm flex items-center gap-2">
+                                    <i class="fas fa-eye text-slate-600"></i> What To Watch For
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">${foundCond.whatToWatchFor}</p>
+                            </div>
                         </div>
 
-                        <!-- What to Watch For -->
-                        <div class="bg-amber-100/60 border border-amber-300 rounded-2xl p-5 space-y-2">
-                            <div class="flex items-center space-x-2 text-amber-950 font-black text-sm">
-                                <div class="w-7 h-7 bg-amber-300 rounded-lg flex items-center justify-center text-xs text-amber-900">
-                                    <i class="fas fa-triangle-exclamation"></i>
-                                </div>
-                                <span>What to Watch For</span>
+                        <!-- Severe Red Flags Section -->
+                        <div class="bg-red-50/80 border-2 border-red-200 rounded-2xl p-6 space-y-3">
+                            <div class="flex items-center gap-2 text-red-900 font-black text-sm uppercase tracking-wider">
+                                <i class="fas fa-triangle-exclamation text-red-600 text-lg"></i>
+                                <span>Severe Warning Signs / Medical Consultation Recommended</span>
                             </div>
-                            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium pl-9">
-                                ${condition.whatToWatchFor}
-                            </p>
+                            <ul class="space-y-2 pl-2">
+                                ${foundCond.severeRecommend.map(sr => `
+                                    <li class="text-xs sm:text-sm text-red-950 font-semibold flex items-start gap-2 leading-relaxed">
+                                        <i class="fas fa-angle-right text-red-500 mt-1 flex-shrink-0"></i>
+                                        <span>${sr}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // Initial Load Initialization
-        window.addEventListener('DOMContentLoaded', () => {
-            renderHomeCategories();
-            populateCategoryFilter();
-            if (healthData.length > 0 && healthData[0].conditions.length > 0) {
-                selectedConditionId = healthData[0].conditions[0].id;
-                renderConditionPills();
-                renderGuideDisplay();
+        // SEARCH FUNCTIONALITY
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('search-results');
+            const cleanQuery = query.trim().toLowerCase();
+
+            if (!cleanQuery) {
+                resultsContainer.classList.add('hidden');
+                resultsContainer.innerHTML = '';
+                return;
             }
-        });
+
+            const matches = [];
+            healthData.forEach(cat => {
+                cat.conditions.forEach(cond => {
+                    const matchName = cond.name.toLowerCase().includes(cleanQuery);
+                    const matchSymptoms = cond.symptomsList.some(s => s.toLowerCase().includes(cleanQuery));
+                    const matchCat = cat.category.toLowerCase().includes(cleanQuery);
+
+                    if (matchName || matchSymptoms || matchCat) {
+                        matches.push({ condition: cond, category: cat });
+                    }
+                });
+            });
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="p-4 text-xs font-bold text-slate-500 text-center">
+                        No health concerns or symptoms matching "${query}"
+                    </div>
+                `;
+            } else {
+                resultsContainer.innerHTML = matches.map(m => `
+                    <div onclick="selectSearchResult('${m.category.id}', '${m.condition.id}')" class="p-3.5 hover:bg-amber-100/70 cursor-pointer transition flex items-center justify-between group">
+                        <div>
+                            <p class="text-xs font-black text-slate-900 group-hover:text-amber-900">${m.condition.name}</p>
+                            <p class="text-[11px] font-bold text-slate-500">${m.category.category}</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-xs text-amber-500 group-hover:translate-x-1 transition transform"></i>
+                    </div>
+                `).join('');
+            }
+            resultsContainer.classList.remove('hidden');
+        }
+
+        function selectSearchResult(catId, condId) {
+            document.getElementById('search-results').classList.add('hidden');
+            document.getElementById('home-search').value = '';
+            selectedCategoryFilter = catId;
+            document.getElementById('category-filter').value = catId;
+            selectedConditionId = condId;
+            navigateTo('concerns');
+        }
+
+        // RUN ON LOAD
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
